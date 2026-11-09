@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
     <head>
+        <meta charset="UTF-8">
         <title>Lekarz Zuzanna Zalewska</title>
         <style>
             body {
@@ -15,8 +16,11 @@
                 background-color:#e1e5e8;
                 color: #030303;
             }
-            h2 {color:#030303;
+            h2 {
+                color:#030303;
                 font-size: 1.35rem;
+                border-bottom: 1px solid #a2a9b1;
+                padding-bottom: 4px;
             }
             p {
                 font-size: 1.1rem;
@@ -146,139 +150,612 @@
                 padding: 25px 30px;
                 border-radius: 2px;
             }
-                    </style>
+
+            /* SIATKA ALBUMÓW / FOLDERÓW */
+            .albums-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+            .album-card {
+                border: 1px solid #a2a9b1;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+                overflow: hidden;
+                cursor: pointer;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                text-align: center;
+            }
+
+            .album-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+                border-color: #5b9bd5;
+            }
+
+            .album-card img {
+                width: 100%;
+                height: 160px;
+                object-fit: cover;
+                display: block;
+            }
+
+            .album-card-title {
+                padding: 10px;
+                background-color: #ffffff;
+                border-top: 1px solid #e0e0e0;
+            }
+
+            .album-card-title h4 {
+                margin: 0 0 4px 0;
+                font-size: 1rem;
+                color: #202122;
+            }
+
+            .album-card-title span {
+                font-size: 0.8rem;
+                color: #5b9bd5;
+                font-weight: bold;
+            }
+
+            /* OKNO ALBUMU (MODAL) */
+            .album-modal {
+                display: none;
+                position: fixed;
+                z-index: 999;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.75);
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            .album-modal-content {
+                background-color: #ffffff;
+                border-radius: 6px;
+                max-width: 900px;
+                width: 100%;
+                max-height: 85vh;
+                overflow-y: auto;
+                padding: 25px;
+                position: relative;
+                box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            }
+
+            .close-album-btn {
+                position: absolute;
+                top: 15px;
+                right: 20px;
+                font-size: 28px;
+                font-weight: bold;
+                color: #54595d;
+                cursor: pointer;
+            }
+
+            .close-album-btn:hover {
+                color: #000000;
+            }
+
+            .album-photos-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 12px;
+                margin-top: 15px;
+            }
+
+            .album-photos-grid img {
+                width: 100%;
+                height: 140px;
+                object-fit: cover;
+                border-radius: 3px;
+                cursor: pointer;
+                transition: transform 0.2s ease, opacity 0.2s ease;
+            }
+
+            .album-photos-grid img:hover {
+                opacity: 0.9;
+                transform: scale(1.02);
+            }
+
+            /* PEŁNOEKRANOWE POWIĘKSZENIE (LIGHTBOX) */
+            .lightbox-modal {
+                display: none;
+                position: fixed;
+                z-index: 99999;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.9);
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+            }
+
+            .lightbox-modal img {
+                max-width: 90%;
+                max-height: 90%;
+                border-radius: 4px;
+                box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+            }
+        </style>
     </head>
-</html>
 
-<body>
+    <body>
 
-    <div class="wiki-header">
-        <strong>Wolna Encyklopedia Lekarska</strong>
-    </div>
-
-    <div class="wiki-wrapper">
-
-        <div class="wiki-sidebar">
-            <h3>Spis treści</h3>
-            <ul>
-                <li><a href="#biografia">1. Informacje</a></li>
-                <li><a href="#wyksztalcenie">2. Wykształcenie</a></li>
-                <li><a href="#hobby">3. Hobby</a></li>
-                <li><a href="#przyjaciele">4. Przyjaciele</a></li>
-                <li><a href="#galeria">5. Galeria</a></li>
-            </ul>
+        <div class="wiki-header">
+            <strong>Wolna Encyklopedia Lekarska</strong>
         </div>
 
-        <div class="wiki-content">
+        <div class="wiki-wrapper">
 
-            <h1 id="biografia"><center>Lekarz <br>Zuzanna Zalewska</center></h1>
-            
-            <table class="wiki-infobox">
-            <tr>
-                <th colspan="2" class="main-title">Zuzanna Zalewska</th>
-            </tr>
-
-            <tr>
-                <td colspan="2" class="photo-cell">
-                    <img src="IMG_1036.jpeg" alt="Zuzanna Zalewska">
-                    <div class="photo-caption">Lek. Zuzanna Zalewska (2026)</div>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="label">Data i miejsce urodzenia</td>
-                <td class="data">23 czerwca 2001<br>Zduńska Wola</td>
-            </tr>
-
-            <tr>
-                <td class="label">Alma Mater</td>
-                <td class="data">Uniwersytet Medyczny we Wrocławiu</td>
-            </tr>
-            <tr>
-                <td class="label">Data rozpoczęcia studiów</td>
-                <td class="data">1 października 2020</td>
-            </tr>
-
-            <tr>
-                <th colspan="2" class="section-title">Rodzina</th>
-            </tr>
-
-            <tr>
-                <td class="label">Mama</td>
-                <td class="data">Małgorzata Zalewska-Łakoma</td>
-            </tr>
-            <tr>
-                <td class="label">Tata</td>
-                <td class="data">Marek Zalewski</td>
-            </tr>
-            <tr>
-                <td class="label">Ojczym</td>
-                <td class="data">Andrzej Łakomy</td>
-            </tr>
-            <tr>
-                <td class="label">Ukochana siostra</td>
-                <td class="data">Julia 'Julian' Zalewska</td>
-            </tr>
-
-        </table>            
-            <p><br><b>Zuzanna Zalewska</b> (ur. 23 czerwca 2001 w Zduńskiej Woli) – polska lekarka, absolwentka Uniwersytetu Medycznego im. Piastów Śląskich we Wrocławiu. Uznawana za jedną z najbardziej ambitnych i utalentowanych absolwentek rocznika 2026.</p>
-            <br>
-            <h2 id="wyksztalcenie">Wykształcenie i działalność naukowa</h2>
-
-            <p>
-                W dniu 1 października 2020 roku rozpoczęła jednolite studia magisterskie na kierunku lekarskim Uniwersytetu Medycznego im. Piastów Śląskich we Wrocławiu. Przez 6 lat zgłębiała tajniki anatomii, chirurgii, pediatrii oraz internistyki.
-            </p>
-
-            <h3>Kardiologia i Studenckie Koła Naukowe</h3>
-            <p>
-                Głównym obszarem zainteresowań naukowych i zawodowych Zuzanny jest <strong>kardiologia</strong>. W trakcie studiów pełniła prestiżową funkcję <strong>Przewodniczącej Studenckiego Koła Naukowego Kardiologii</strong>. W ramach tej roli kierowała pracami zespołu badawczego, organizowała spotkania naukowe oraz inicjowała projekty z zakresu diagnostyki i terapii chorób układu krążenia.
-            </p>
-
-            <h3>Osiągnięcia i stypendia</h3>
-            <ul>
-                <li><strong>Stypendium Rektora dla najlepszych studentów</strong> – przyznawane wielokrotnie za wybitne wyniki w nauce oraz osiągnięcia naukowe.</li>
-                <li><strong>Czynny udział w konferencjach medycznych</strong> – wielokrotne ustne prezentowanie autorskich prac badawczych i doniesień zjazdowych z zakresu kardiologii przed gremiami profesorskimi i studenckimi w całej Polsce.</li>
-            </ul>
-
-            <h3>Staż podyplomowy i dalszy rozwój</h3>
-            <p>
-                W dniu <strong>1 października 2026 roku</strong> rozpoczęła 13-miesięczny obowiązkowy staż podyplomowy w <strong>Uniwersyteckim Szpitalu Klinicznym przy ul. Borowskiej we Wrocławiu</strong>. <br>Bezpośrednio po jego zakończeniu planuje rozpoczęcie rezydentury z kardiologii.
-            </p>
-            <br>
-            <h2 id="hobby">Zainteresowania i hobby</h2>
-
-            <div style="float: right; margin: 0 0 10px 10px; border: 1px solid #c8ccd1; padding: 3px; background-color: #f8f9fa; text-align: center; width: 180px;">
-                <img src="Kitek.jpg" alt="Kitek" style="width: 100%; height: auto;">
-                <p style="font-size: 0.8rem; margin: 5px 0 0 0; color: #54595d;">Kitek</p>
+            <div class="wiki-sidebar">
+                <h3>Spis treści</h3>
+                <ul>
+                    <li><a href="#biografia">1. Informacje</a></li>
+                    <li><a href="#wyksztalcenie">2. Wykształcenie</a></li>
+                    <li><a href="#hobby">3. Hobby</a></li>
+                    <li><a href="#przyjaciele">4. Przyjaciele</a></li>
+                    <li><a href="#galeria">5. Galeria 6 lat studiów</a></li>
+                </ul>
             </div>
 
-            <p>
-                Poza nauką medycyny Zuzanna wykazuje szerokie spektrum zainteresowań osobistych oraz naukowo-badawczych:
-            </p>
-            <ul>
-                <li><strong>Kofeinologia stosowana</strong> – profesjonalne picie kawy.</li>
-                <li>Granie w <strong>Candy Crush</strong></li>
-                <li><strong>Analiza społeczno-polityczna</strong> – pochłanianie nieskończonej liczby podcastów, wywiadów oraz śledzenie na bieżąco serwisów informacyjnych i polityki.</li>
-                <li><strong>Literatura</strong> – czytanie książek (również tych, które nie są podręcznikami do anatomii czy interny).</li>
-                <li><strong>Felinologia</strong> – spędzanie czasu z rodzinnym kotem o imieniu <strong>Kitek</strong>, który pełni funkcję osobistego wsparcia emocjonalnego oraz domowego terapeuty.</li>
-            </ul>
+            <div class="wiki-content">
 
-            <div style="clear: both;"></div>
+                <h1 id="biografia" style="text-align: center;">Lekarz <br>Zuzanna Zalewska</h1>
+                
+                <table class="wiki-infobox">
+                    <tr>
+                        <th colspan="2" class="main-title">Zuzanna Zalewska</th>
+                    </tr>
 
-            <h2 id="przyjaciele">Przyjaciele</h2>
+                    <tr>
+                        <td colspan="2" class="photo-cell">
+                            <img src="IMG_1036_wiki.jpeg" alt="Zuzanna Zalewska">
+                            <div class="photo-caption">Lek. Zuzanna Zalewska (2026)</div>
+                        </td>
+                    </tr>
 
-            <div style="float: right; margin: 0 0 15px 15px; border: 1px solid #c8ccd1; padding: 3px; background-color: #f8f9fa; text-align: center; width: 220px;">
-                <img src="6kliniczna.jpg" alt="7. kliniczna" style="width: 100%; height: auto; display: block;">
-                <p style="font-size: 0.8rem; margin: 5px 0 2px 0; color: #54595d;">Od lewej: Dominik, Zuza, Agata, Ania, Maks, Borys, Oliwka</p>
+                    <tr>
+                        <td class="label">Data i miejsce urodzenia</td>
+                        <td class="data">23 czerwca 2001<br>Zduńska Wola</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Alma Mater</td>
+                        <td class="data">Uniwersytet Medyczny we Wrocławiu</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Data rozpoczęcia studiów</td>
+                        <td class="data">1 października 2020</td>
+                    </tr>
+
+                    <tr>
+                        <th colspan="2" class="section-title">Rodzina</th>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Mama</td>
+                        <td class="data">Małgorzata Zalewska-Łakoma</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Tata</td>
+                        <td class="data">Marek Zalewski</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Ojczym</td>
+                        <td class="data">Andrzej Łakomy</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Ukochana siostra</td>
+                        <td class="data">Julia 'Julian' Zalewska</td>
+                    </tr>
+
+                </table>            
+                
+                <p><b>Zuzanna Zalewska</b> (ur. 23 czerwca 2001 w Zduńskiej Woli) – polska lekarka, absolwentka Uniwersytetu Medycznego im. Piastów Śląskich we Wrocławiu. Uznawana za jedną z ambitniejszych i utalentowanych absolwentek rocznika 2026 (okiem znawcy: Julii Zalewskiej).</p>
+                
+                <br>
+                <h2 id="wyksztalcenie">Wykształcenie i działalność naukowa</h2>
+
+                <p>
+                    W dniu 1 października 2020 roku rozpoczęła jednolite studia magisterskie na kierunku lekarskim Uniwersytetu Medycznego im. Piastów Śląskich we Wrocławiu. Przez 6 lat zgłębiała tajniki anatomii, chirurgii, pediatrii oraz interny.
+                </p>
+
+                <h3>Kardiologia i Studenckie Koła Naukowe</h3>
+                <p>
+                    Głównym obszarem zainteresowań naukowych i zawodowych Zuzanny jest <strong>kardiologia</strong>. W trakcie studiów pełniła prestiżową funkcję <strong>Przewodniczącej Studenckiego Koła Naukowego Kardiologii</strong>. W ramach tej roli kierowała pracami zespołu badawczego, organizowała spotkania naukowe oraz inicjowała projekty z zakresu diagnostyki i terapii chorób układu krążenia.
+                </p>
+
+                <h3>Osiągnięcia i stypendia</h3>
+                <ul>
+                    <li><strong>Stypendium Rektora dla najlepszych studentów</strong> – przyznawane za wybitne wyniki w nauce oraz osiągnięcia naukowe.</li>
+                    <li><strong>Czynny udział w konferencjach medycznych</strong> – wielokrotne ustne prezentowanie autorskich prac badawczych i doniesień zjazdowych z zakresu kardiologii.</li>
+                </ul>
+
+                <h3>Staż podyplomowy i dalszy rozwój</h3>
+                <p>
+                    W dniu <strong>1 października 2026 roku</strong> rozpoczęła 13-miesięczny obowiązkowy staż podyplomowy w <strong>Uniwersyteckim Szpitalu Klinicznym przy ul. Borowskiej we Wrocławiu</strong>.<br>Bezpośrednio po jego zakończeniu planuje rozpoczęcie rezydentury z kardiologii.
+                </p>
+                
+                <br>
+                <h2 id="hobby">Zainteresowania i hobby</h2>
+
+                <div style="float: right; margin: 0 0 10px 10px; border: 1px solid #c8ccd1; padding: 3px; background-color: #f8f9fa; text-align: center; width: 180px;">
+                    <img src="WhatsApp Image 2026-11-09 at 01.03.02.jpeg" alt="Kitek" style="width: 100%; height: auto;">
+                    <p style="font-size: 0.8rem; margin: 5px 0 0 0; color: #54595d;">Kot Kitek</p>
+                </div>
+
+                <p>
+                    Poza nauką Zuzanna wykazuje szerokie spektrum zainteresowań osobistych:
+                </p>
+                <ul>
+                    <li><strong>Balet</strong> – pasja do tańca, rozciągania i piruetów.</li>
+                    <li><strong>Szydełkowanie</strong> – tworzenie autorskiego rękodzieła (podkładka pod kubki, ochrona na książki oraz laptopa) i ubrań.</li>
+                    <li><strong>Analiza społeczno-polityczna</strong> – pochłanianie nieskończonej liczby podcastów, wywiadów oraz śledzenie na bieżąco serwisów informacyjnych i polityki.</li>
+                    <li><strong>Literatura</strong> – czytanie książek (również tych, które nie są podręcznikami do anatomii czy kardiologii).</li>
+                    <li><strong>Kitek</strong> – spędzanie czasu z rodzinnym kotem o imieniu <strong>Kitek</strong>, który pełni funkcję osobistego wsparcia emocjonalnego.</li>
+                    <li><strong>Candy Crush</strong> – taktyczne pokonywanie kolejnych poziomów gry w chwilach przerwy między nauką.</li>
+                </ul>
+
+                <div style="clear: both;"></div>
+
+                <h2 id="przyjaciele">Przyjaciele</h2>
+
+                <div style="float: right; margin: 0 0 15px 15px; border: 1px solid #c8ccd1; padding: 3px; background-color: #f8f9fa; text-align: center; width: 220px;">
+                    <img src="studia/IMG_9966.jpeg" alt="7. kliniczna" style="width: 100%; height: auto; display: block;">
+                    <p style="font-size: 0.8rem; margin: 5px 0 2px 0; color: #54595d;">Od lewej: Borys, Ania, Zuza, Agata, Dominik, Oliwka, Maks</p>
+                </div>
+
+                <p>
+                    Od 3. roku studiów główną grupą zajęciową oraz studencką paczką Zuzanny stała się tzw. <em>6. kliniczna</em> (dokładniej mówiąc <strong>7. kliniczna</strong>). To z tą grupą znajomych miała najwięcej wspólnych zajęć na szpitalnych oddziałach i to z nimi utrzymywała najintensywniejszy kontakt przez całą drugą połowę studiów.
+                </p>
+
+                <h3>W skład 7. klinicznej wchodzą:</h3>
+                <ul>
+                    <li>Zuzanna Zalewska</li>
+                    <li>Ania Szymańska</li>
+                    <li>Agata Wróblewska</li>
+                    <li>Oliwia Sas</li>
+                    <li>Dominik Mendyka</li>
+                    <li>Maksymilian Stróżycki </li>
+                    <li>Borys Aleksandrow</li>
+                </ul>
+
+                <div style="clear: both;"></div>
+
+                <h2 id="galeria">Galeria: Kronika 6 lat studiów (2020–2026)</h2>
+
+                <!-- KAFELKI ALBUMÓW -->
+                <div class="albums-grid">
+
+                    <div class="album-card" onclick="otworzAlbum('album-kliniczna')">
+                        <img src="WhatsApp Image 2026-11-02 at 22.33.20.jpeg" alt="7. kliniczna">
+                        <div class="album-card-title">
+                            <h4>7. kliniczna na studiach</h4>
+                            <span>Zobacz zdjęcia ➔</span>
+                        </div>
+                    </div>
+
+                    <div class="album-card" onclick="otworzAlbum('album-towarzyskie')">
+                        <img src="36d2310bda7c2d73a3afb93aa005bf50.jpeg" alt="Towarzyskie">
+                        <div class="album-card-title">
+                            <h4>Życie towarzyskie</h4>
+                            <span>Zobacz zdjęcia ➔</span>
+                        </div>
+                    </div>
+
+
+                    <div class="album-card" onclick="otworzAlbum('album-polmetek')">
+                        <img src="IMG_7423.JPG" alt="Półmetek">
+                        <div class="album-card-title">
+                            <h4>Półmetek</h4>
+                            <span>Zobacz zdjęcia ➔</span>
+                        </div>
+                    </div>
+
+                    <div class="album-card" onclick="otworzAlbum('album-ostatni')">
+                        <img src="IMG_7422.jpeg" alt="Ostatni egzamin">
+                        <div class="album-card-title">
+                            <h4>Ostatni egzamin 09.06.2026</h4>
+                            <span>Zobacz zdjęcia ➔</span>
+                        </div>
+                    </div>
+
+                    <div class="album-card" onclick="otworzAlbum('album-koniec')">
+                        <img src="IMG_1925.jpeg" alt="Koniec">
+                        <div class="album-card-title">
+                            <h4>Dyplom oraz pożegnanie uczelni</h4>
+                            <span>Zobacz zdjęcia ➔</span>
+                        </div>
+                    </div>
+
+                    <div class="album-card" onclick="otworzAlbum('album-bal')">
+                        <img src="IMG_0936.jpeg" alt="Bal Lekarski">
+                        <div class="album-card-title">
+                            <h4>Bal Lekarski 2026</h4>
+                            <span>Zobacz zdjęcia ➔</span>
+                        </div>
+                    </div>
+
+                    <div class="album-card" onclick="otworzAlbum('album-absolutorium')">
+                        <img src="IMG_1036_wiki.jpeg" alt="Absolutorium">
+                        <div class="album-card-title">
+                            <h4>Odbiór dyplomu 09.11.2026</h4>
+                            <span>Zobacz zdjęcia ➔</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- TREŚĆ ALBUMÓW (MODALE) -->
+
+                <!-- ALBUM 2 -->
+                <div id="album-kliniczna" class="album-modal" onclick="zamknijTlo(event, 'album-kliniczna')">
+                    <div class="album-modal-content">
+                        <span class="close-album-btn" onclick="zamknijAlbum('album-kliniczna')">&times;</span>
+                        <h2>7. kliniczna na studiach i w szpitalu</h2>
+                        <div class="album-photos-grid">
+                            <img src="WhatsApp Image 2026-11-08 at 21.53.10 (16).jpeg"  alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-08 at 21.53.11 (8).jpeg"  alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-08 at 21.53.10 (8).jpeg"  alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-08 at 21.53.10 (4).jpeg"  alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-02 at 22.33.20.jpeg"  alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-02 at 22.33.19 (2).jpeg"  alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-02 at 22.33.19 (1).jpeg"  alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-02 at 22.33.19.jpeg"  alt="Zdjęcie">
+                            <img src="306658dc-bff1-400f-a8c5-50935e87ebba.jpg"  alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-08 at 21.53.20.jpeg"  alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-08 at 21.53.10 (18).jpeg"  alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-08 at 21.53.10 (10).jpeg" alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-08 at 21.53.10 (7).jpeg"  alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-08 at 21.53.10 (11).jpeg"  alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-08 at 21.52.34 (1).jpeg"  alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-08 at 21.53.10 (5).jpeg" alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-08 at 21.53.10 (3).jpeg"  alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-02 at 22.33.24 (6).jpeg"  alt="Zdjęcie">
+                            <img src="dd421a69-5779-42cc-bd46-40730d89f4c6.jpg"  alt="Zdjęcie">
+                            <img src="IMG_5078.JPG"  alt="Zdjęcie">
+                            <img src="IMG_0651.JPG"  alt="Zdjęcie">
+                            <img src="IMG_4510.JPG"  alt="Zdjęcie">
+                            <img src="IMG_8698.JPG"  alt="Zdjęcie">
+                            <img src="IMG_8679.JPG"  alt="Zdjęcie">
+                            <img src="IMG_6202.JPG"  alt="Zdjęcie">
+                            <img src="IMG_6107.JPG"  alt="Zdjęcie">
+                            <img src="IMG_6059.JPG"  alt="Zdjęcie">
+                            <img src="IMG_4791.JPG"  alt="Zdjęcie">
+                            <img src="IMG_5123.jpg"  alt="Zdjęcie">
+                            <img src="IMG_8222.JPG"  alt="Zdjęcie">
+                            <img src="IMG_5227.JPG"  alt="Zdjęcie">
+                            <img src="IMG_0273.jpg"  alt="Zdjęcie">
+                            <img src="studia/IMG_0060.jpeg" alt="Zdjęcie">
+                            <img src="studia/IMG_0256.jpeg" alt="Zdjęcie">
+                            <img src="studia/IMG_2792.jpeg" alt="Zdjęcie">
+                            <img src="studia/IMG_9138.jpeg" alt="Zdjęcie">
+                            <img src="studia/IMG_9956.jpeg" alt="Zdjęcie">
+                            <img src="studia/IMG_9957.jpeg" alt="Zdjęcie">
+                            <img src="studia/IMG_9966.jpeg" alt="Zdjęcie">
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div id="album-towarzyskie" class="album-modal" onclick="zamknijTlo(event, 'album-towarzyskie')">
+                    <div class="album-modal-content">
+                        <span class="close-album-btn" onclick="zamknijAlbum('album-towarzyskie')">&times;</span>
+                        <h2>Życie towarzyskie</h2>
+                        <div class="album-photos-grid">
+                            <img src="Zycie_towarzystkie/IMG_0527.jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/36d2310bda7c2d73a3afb93aa005bf50.jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/IMG_0782.jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/IMG_3422.jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/IMG_4734.jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/IMG_6141.jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-02 at 22.33.21 (1).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-02 at 22.33.21 (2).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-02 at 22.33.21 (4).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-02 at 22.33.23 (2).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-02 at 22.33.23 (3).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-02 at 22.33.23 (4).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-02 at 22.33.23 (5).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.10 (1).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.10 (2).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.10 (6).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.10 (9).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.10 (12).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.10 (13).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.10 (14).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.10 (15).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.10 (19).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.10 (20).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.10 (21).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.10.jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11 (1).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11 (2).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11 (3).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11 (4).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11 (5).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11 (6).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11 (7).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11 (9).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11 (10).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11 (11).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11 (12).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11 (13).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11 (14).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11 (15).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11 (16).jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.11.jpeg" alt="Zdjęcie">
+                            <img src="Zycie_towarzystkie/WhatsApp Image 2026-11-08 at 21.53.12.jpeg" alt="Zdjęcie">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALBUM 4 -->
+                <div id="album-polmetek" class="album-modal" onclick="zamknijTlo(event, 'album-polmetek')">
+                    <div class="album-modal-content">
+                        <span class="close-album-btn" onclick="zamknijAlbum('album-polmetek')">&times;</span>
+                        <h2>Półmetek</h2>
+                        <div class="album-photos-grid">
+                            <img src="WhatsApp Image 2026-11-08 at 21.52.33.jpeg" alt="Zdjęcie">
+                            <img src="IMG_2824.jpg" alt="Zdjęcie">
+                            <img src="IMG_2810.jpg" alt="Zdjęcie">
+                            <img src="IMG_2804.jpg" alt="Zdjęcie">
+                            <img src="IMG_2683.jpg" alt="Zdjęcie">
+                            <img src="IMG_7337.JPG" alt="Zdjęcie">
+                            <img src="IMG_7341.JPG" alt="Zdjęcie">
+                            <img src="IMG_7357.JPG" alt="Zdjęcie">
+                            <img src="IMG_7358.JPG" alt="Zdjęcie">
+                            <img src="IMG_7365.JPG" alt="Zdjęcie">
+                            <img src="IMG_7390.JPG" alt="Zdjęcie">
+                            <img src="IMG_7391.JPG" alt="Zdjęcie">
+                            <img src="IMG_7408.JPG" alt="Zdjęcie">
+                            <img src="IMG_7412.JPG" alt="Zdjęcie">
+                            <img src="IMG_7404.JPG" alt="Zdjęcie">
+                            <img src="IMG_7412.JPG" alt="Zdjęcie">
+                            <img src="IMG_7423.JPG" alt="Zdjęcie">
+                            <img src="IMG_7425.JPG" alt="Zdjęcie">
+                            <img src="IMG_7427.JPG" alt="Zdjęcie">
+                            <img src="Półmetek/IMG_7429.JPG" alt="Zdjęcie">
+                            <img src="Półmetek/IMG_7430.JPG" alt="Zdjęcie">
+                            <img src="Półmetek/_MG_7468.JPG" alt="Zdjęcie">
+                            <img src="Półmetek/IMG_7335.JPG" alt="Zdjęcie">
+                            <img src="Półmetek/IMG_7342.JPG" alt="Zdjęcie">
+                            <img src="Półmetek/IMG_7379.JPG" alt="Zdjęcie">
+                            <img src="Półmetek/_MG_7470.JPG" alt="Zdjęcie">
+                            <img src="Półmetek/_MG_7473.JPG" alt="Zdjęcie">
+                            <img src="Półmetek/_MG_7478.JPG" alt="Zdjęcie">
+                            <img src="Półmetek/IMG_7441.JPG" alt="Zdjęcie">
+                            <img src="Półmetek/IMG_7442.JPG" alt="Zdjęcie">
+                            <img src="Półmetek/IMG_7372.JPG" alt="Zdjęcie">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="album-ostatni" class="album-modal" onclick="zamknijTlo(event, 'album-ostatni')">
+                    <div class="album-modal-content">
+                        <span class="close-album-btn" onclick="zamknijAlbum('album-ostatni')">&times;</span>
+                        <h2>Ostatni egzamin</h2>
+                        <div class="album-photos-grid">
+                            <img src="Ostatni_egzamin/IMG_7429.jpeg" alt="Zdjęcie">
+                            <img src="Ostatni_egzamin/WhatsApp Image 2026-11-02 at 22.33.22 (1).jpeg" alt="Zdjęcie">
+                            <img src="Ostatni_egzamin/WhatsApp Image 2026-11-02 at 22.33.22 (2).jpeg" alt="Zdjęcie">
+                            <img src="Ostatni_egzamin/WhatsApp Image 2026-11-02 at 22.33.22.jpeg" alt="Zdjęcie">
+                            <img src="Ostatni_egzamin/WhatsApp Image 2026-11-02 at 22.33.23 (1).jpeg" alt="Zdjęcie">
+                            <img src="Ostatni_egzamin/WhatsApp Image 2026-11-02 at 22.33.23.jpeg" alt="Zdjęcie">
+                            <img src="Ostatni_egzamin/IMG_7422.jpeg" alt="Zdjęcie">
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div id="album-koniec" class="album-modal" onclick="zamknijTlo(event, 'album-koniec')">
+                    <div class="album-modal-content">
+                        <span class="close-album-btn" onclick="zamknijAlbum('album-koniec')">&times;</span>
+                        <h2>Dyplom oraz pożegnanie uczelni</h2>
+                        <div class="album-photos-grid">
+                            <img src="Dyplom/IMG_1925.jpeg" alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-02 at 22.33.24 (1).jpeg" alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-02 at 22.33.24 (2).jpeg" alt="Zdjęcie">
+                            <img src="WhatsApp Image 2026-11-02 at 22.33.24 (4).jpeg" alt="Zdjęcie">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALBUM 5 -->
+                <div id="album-bal" class="album-modal" onclick="zamknijTlo(event, 'album-bal')">
+                    <div class="album-modal-content">
+                        <span class="close-album-btn" onclick="zamknijAlbum('album-bal')">&times;</span>
+                        <h2>Bal Lekarski 2026</h2>
+                        <div class="album-photos-grid">
+                            <img src="Bal_lekarski/IMG_0936.jpeg" alt="Zdjęcie">
+                            <img src="Bal_lekarski/IMG_0934.jpeg" alt="Zdjęcie">
+                            <img src="Bal_lekarski/IMG_0992.jpeg" alt="Zdjęcie">
+                            <img src="Bal_lekarski/IMG_1304.jpeg" alt="Zdjęcie">
+                            <img src="Bal_lekarski/IMG_1642.jpeg" alt="Zdjęcie">
+                            <img src="Bal_lekarski/IMG_1647.jpeg" alt="Zdjęcie">
+                            <img src="Bal_lekarski/IMG_1708.jpeg" alt="Zdjęcie">
+                            <img src="Bal_lekarski/IMG_8696.jpeg" alt="Zdjęcie">
+                        </div>
+                    </div>
+                </div>
+                
+
+                <!-- ALBUM 6 -->
+                <div id="album-absolutorium" class="album-modal" onclick="zamknijTlo(event, 'album-absolutorium')">
+                    <div class="album-modal-content">
+                        <span class="close-album-btn" onclick="zamknijAlbum('album-absolutorium')">&times;</span>
+                        <h2>Odbiór dyplomu i absolutorium</h2>
+                        <div class="album-photos-grid">
+                            <img src= alt="Zdjęcie">
+                            <img src= alt="Zdjęcie">
+                            <img src= alt="Zdjęcie">
+                            <img src= alt="Zdjęcie">
+                            <img src= alt="Zdjęcie">
+                            <img src= alt="Zdjęcie">
+                            <img src= alt="Zdjęcie">
+                            <img src= alt="Zdjęcie">
+                            <img src= alt="Zdjęcie">
+                            <img src= alt="Zdjęcie">
+                            <img src= alt="Zdjęcie">
+                            <img src= alt="Zdjęcie">
+                            <img src= alt="Zdjęcie">
+                            <img src= alt="Zdjęcie">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DEDYKACJA OD SIOSTRY -->
+                <div style="background-color: #f8f9fa; border-left: 4px solid #5b9bd5; padding: 12px 18px; margin: 30px 0 15px 0; font-style: italic;">
+                    „Dla ukochanej siostry i córki – ogromne gratulacje z okazji ukończenia studiów! <br>Dumniejsi być nie możemy.” – Julia ❤️
+                </div>
+
             </div>
-
-            <p>
-                Od 3. roku studiów kluczowym miejscem aktywności klinicznej, naukowej i towarzyskiej Zuzanny stała się tzw. <em>6. kliniczna</em> (będąc dokładnym to 7. kliniczna). To z tą grupą utrzymywała najbardziej intensywny kontakt przez całą drugą połowę studiów.
-            </p>
 
         </div>
 
-    </div>
+        <!-- PEŁNOEKRANOWY LIGHTBOX -->
+        <div id="lightbox" class="lightbox-modal" onclick="this.style.display='none'">
+            <img id="lightbox-img" src="" alt="Powiększone zdjęcie">
+        </div>
 
-</body>
+        <!-- LOGIKA SKRYPTÓW -->
+        <script>
+            function otworzAlbum(idAlbumu) {
+                document.getElementById(idAlbumu).style.display = 'flex';
+            }
+
+            function zamknijAlbum(idAlbumu) {
+                document.getElementById(idAlbumu).style.display = 'none';
+            }
+
+            function zamknijTlo(event, idAlbumu) {
+                if (event.target.classList.contains('album-modal')) {
+                    zamknijAlbum(idAlbumu);
+                }
+            }
+
+            // Automatyczne podpinanie powiększania zdjęcia pod kliknięcie
+            document.addEventListener('DOMContentLoaded', () => {
+                const lightbox = document.getElementById('lightbox');
+                const lightboxImg = document.getElementById('lightbox-img');
+
+                document.querySelectorAll('.album-photos-grid img').forEach(img => {
+                    img.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Blokuje zamknięcie okna albumu przy kliknięciu w zdjęcie
+                        lightboxImg.src = img.src;
+                        lightbox.style.display = 'flex';
+                    });
+                });
+            });
+        </script>
+
+    </body>
 </html>
